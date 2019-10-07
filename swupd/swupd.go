@@ -181,7 +181,18 @@ func (m Message) Process(printPrefix, line string) {
 		description = printPrefix + description
 
 		// create a new instance of the progress bar with the correct description
+		if m.StepCompletion == -1 {
+			if prgDesc != m.StepDescription {
+				// create a new instance of the indeterminate progress bar with the correct description
+				prgDesc = m.StepDescription
+				log.Debug("%s: Setting indeterminate progress for task %s", printPrefix, m.StepDescription)
+				prg = progress.NewLoop(description)
+			}
+			return
+		}
+
 		if prgDesc != m.StepDescription {
+			// create a new instance of the step progress bar with the correct description
 			log.Debug("%s: Setting progress for task %s", printPrefix, m.StepDescription)
 			prg = progress.MultiStep(total, description)
 			prgDesc = m.StepDescription
