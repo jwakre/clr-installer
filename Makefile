@@ -261,7 +261,7 @@ lint-core: build install-linters gopath
 PHONY += lint-checkers
 lint-checkers: lint-mispell lint-vet lint-ineffassign lint-gocyclo lint-gofmt \
 lint-golint lint-deadcode lint-varcheck lint-structcheck \
-lint-unused lint-vetshadow lint-errcheck
+lint-unused lint-vetshadow lint-errcheck lint-staticcheck
 
 PHONY += lint-mispell
 lint-mispell: lint-core
@@ -279,6 +279,15 @@ lint-vet: lint-core
 	--skip-dirs-use-default \
 	--disable-all \
 	--enable=govet \
+	./...
+
+PHONY += lint-vet
+lint-staticcheck: lint-core
+	@echo "Running linter lint-static"
+	@${orig_go_path}/bin/golangci-lint run --deadline=20m --tests \
+	--skip-dirs-use-default \
+	--disable-all \
+	--enable=staticcheck \
 	./...
 
 PHONY += lint-ineffassign
