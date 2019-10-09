@@ -171,7 +171,7 @@ func logTag(tag string, format string, a ...interface{}) {
 	output := fmt.Sprintf(f, a...)
 
 	if level >= LogLevelVerbose {
-		log.Printf(output)
+		log.Println(output)
 		return
 	}
 
@@ -184,10 +184,10 @@ func logTag(tag string, format string, a ...interface{}) {
 			}
 
 			repeat := fmt.Sprintf("[%s] [Previous line repeated %d time%s]\n", tag, lineCount, plural)
-			log.Printf(repeat)
+			log.Println(repeat)
 		}
 
-		log.Printf(output)
+		log.Println(output)
 
 		lineLast = output
 		lineCount = 0

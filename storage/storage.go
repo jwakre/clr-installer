@@ -1280,6 +1280,7 @@ func (bd *BlockDevice) UnmarshalYAML(unmarshal func(interface{}) error) error {
 			return errors.Errorf("Device: %s: %v", unmarshBlockDevice.Name, err)
 		}
 		if iType < 0 || iType > BlockDeviceTypeUnknown {
+			return errors.Errorf("Device: %s: invalid type: %d", unmarshBlockDevice.Name, iType)
 		}
 		bd.Type = iType
 		if iType != BlockDeviceTypeDisk {

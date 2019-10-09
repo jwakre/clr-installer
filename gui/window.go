@@ -970,7 +970,7 @@ func (window *Window) Panic(err error) {
 		log.Error("Failed to log Telemetry fail record: %s", "guipanic")
 	}
 	log.RequestCrashInfo()
-	displayErrorDialog(err)
+	displayErrorDialog()
 }
 
 // GetWelcomeMessage gets the welcome message
@@ -993,7 +993,7 @@ func GetThankYouMessage() string {
 	return text
 }
 
-func displayErrorDialog(err error) {
+func displayErrorDialog() {
 	contentBox, err := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 0)
 	contentBox.SetHAlign(gtk.ALIGN_FILL)
 	if err != nil {

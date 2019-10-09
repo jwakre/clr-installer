@@ -573,11 +573,11 @@ func TestBackupFile(t *testing.T) {
 	if err != nil {
 		t.Fatalf("%s is a valid test and shouldn't return an error: %v", path, err)
 	}
-	info, err = os.Stat(cf)
+	_, err = os.Stat(cf)
 	if os.IsNotExist(err) {
 		t.Fatalf("%s should still exist and shouldn't return an error: %v", cf, err)
 	}
-	info, err = os.Stat(bf)
+	_, err = os.Stat(bf)
 	if os.IsNotExist(err) {
 		t.Fatalf("%s should exist and shouldn't return an error: %v", cf, err)
 	}

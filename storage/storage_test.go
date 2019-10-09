@@ -1004,6 +1004,7 @@ func TestSetPartitition(t *testing.T) {
 	}
 
 	if !bd.DeviceHasSwap() {
+		t.Fatalf("Device should have swap, but doesn't: %v", bd)
 	}
 }
 

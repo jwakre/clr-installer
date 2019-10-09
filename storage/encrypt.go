@@ -7,7 +7,6 @@ package storage
 import (
 	"bytes"
 	"fmt"
-	"github.com/clearlinux/clr-installer/utils"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -15,6 +14,8 @@ import (
 	"strconv"
 	"strings"
 	"syscall"
+
+	"github.com/clearlinux/clr-installer/utils"
 
 	"golang.org/x/crypto/ssh/terminal"
 
@@ -292,7 +293,7 @@ func askPassPhrase(prompt string) string {
 		fmt.Print("\n")
 		if err == nil {
 			passphrase = string(bytePassphrase)
-			strings.TrimSpace(passphrase)
+			passphrase = strings.TrimSpace(passphrase)
 
 			errMsg := ""
 			if done, errMsg = IsValidPassphrase(passphrase); !done {

@@ -32,17 +32,17 @@ type IsterConfig struct {
 	PartitionMountPoints []*PartitionMountPoint `json:"PartitionMountPoints"`
 	Version              json.Number            `json:"Version"`
 	Bundles              []string               `json:"Bundles"`
-	Users                []*User                `json:"Users,omitempty,flow"`
-	Hostname             string                 `json:"Hostname,omitempty,flow"`
-	StaticIP             *Network               `json:"Static_IP,omitempty,flow"`
-	PostNonChroot        []string               `json:"PostNonChroot,omitempty,flow"`
-	PostNonChrootShell   []string               `json:"PostNonChrootShell,omitempty,flow"`
-	LegacyBios           bool                   `json:"LegacyBios,omitempty,flow"`
-	HTTPSProxy           string                 `json:"HTTPSProxy,omitempty,flow"`
-	HTTPProxy            string                 `json:"HTTPProxy,omitempty,flow"`
-	MirrorURL            string                 `json:"MirrorURL,omitempty,flow"`
-	Cmdline              string                 `json:"cmdline,omitempty,flow"`
-	VersionURL           string                 `json:"VersionURL,omitempty,flow"`
+	Users                []*User                `json:"Users,omitempty"`
+	Hostname             string                 `json:"Hostname,omitempty"`
+	StaticIP             *Network               `json:"Static_IP,omitempty"`
+	PostNonChroot        []string               `json:"PostNonChroot,omitempty"`
+	PostNonChrootShell   []string               `json:"PostNonChrootShell,omitempty"`
+	LegacyBios           bool                   `json:"LegacyBios,omitempty"`
+	HTTPSProxy           string                 `json:"HTTPSProxy,omitempty"`
+	HTTPProxy            string                 `json:"HTTPProxy,omitempty"`
+	MirrorURL            string                 `json:"MirrorURL,omitempty"`
+	Cmdline              string                 `json:"cmdline,omitempty"`
+	VersionURL           string                 `json:"VersionURL,omitempty"`
 }
 
 // PartitionLayout describes the partition type

@@ -51,7 +51,7 @@ const (
 
 func sortMountPoint(bds []*storage.BlockDevice) []*storage.BlockDevice {
 	sort.Slice(bds[:], func(i, j int) bool {
-		return filepath.HasPrefix(bds[j].MountPoint, bds[i].MountPoint)
+		return strings.HasPrefix(bds[j].MountPoint, bds[i].MountPoint)
 	})
 
 	return bds

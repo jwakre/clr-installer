@@ -116,6 +116,8 @@ func TestTelemetryServerPrivateIP(t *testing.T) {
 		TID: tid,
 	}
 
+	errCh := make(chan error)
+
 	if utils.IsRoot() {
 		// Ensure we do not send this address through a proxy
 		proxies := []string{httpAddr, os.Getenv("no_proxy")}
@@ -172,7 +174,7 @@ func TestTelemetryServerPrivateIP(t *testing.T) {
 		go func() {
 			http.HandleFunc("/", HelloServer)
 			if err := http.ListenAndServe(httpAddr+":"+httpPort, nil); err != nil {
-				t.Fatalf("Telemetry: Failed to create http server for testing: %s\n", err)
+				errCh <- err
 			}
 		}()
 
@@ -203,6 +205,10 @@ func TestTelemetryServerPrivateIP(t *testing.T) {
 	}
 	if telem.IsUsingPrivateIP() == true {
 		t.Fatalf("Telemetry server %q should be a Public IP\n", url)
+	}
+
+	if len(errCh) > 0 {
+		t.Fatalf("Telemetry: Failed to create http server for testing: %s\n", <-errCh)
 	}
 }
 

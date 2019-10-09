@@ -457,11 +457,11 @@ func IsNetworkManagerActive() bool {
 
 	// Make the new dbus connection
 	conn, err := dbus.New()
-	defer conn.Close()
 	if err != nil {
 		log.Warning("Failed to connect to dbus")
 		return networkManager
 	}
+	defer conn.Close()
 
 	// Get the list of Units
 	units, err := conn.ListUnits()

@@ -561,6 +561,7 @@ func cleanup() {
 	/* In case something fails during mkEfiBoot, check and umount clrImgEfi */
 	if err = syscall.Unmount(tmpPaths[clrEfi], syscall.MNT_FORCE|syscall.MNT_DETACH); err != nil {
 		// Failed to unmount, usually the normal case, but could be umount actually failed.
+		log.Warning("Failed to unmount %s", tmpPaths[clrEfi])
 	}
 
 	/* Remove all directories in /tmp/clr_* */

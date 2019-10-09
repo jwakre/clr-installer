@@ -5,6 +5,7 @@
 package args
 
 import (
+	"context"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -325,7 +326,7 @@ func TestKernelCmdValidFetch(t *testing.T) {
 	}
 
 	defer func() {
-		if err = srv.Shutdown(nil); err != nil {
+		if err = srv.Shutdown(context.Background()); err != nil {
 			t.Fatal(err)
 		}
 	}()
