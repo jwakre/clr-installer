@@ -1578,19 +1578,19 @@ func (a ByBDName) Less(i, j int) bool {
 
 // ServerValidateAdvancedPartitions returns an array of validation error
 // strings for the advanced partitions based on a Server installation.
-func ServerValidateAdvancedPartitions(medias []*BlockDevice) []string {
-	return validateAdvancedPartitions(MinimumServerInstallSize, medias)
+func ServerValidateAdvancedPartitions(medias []*BlockDevice, LegacyBios bool) []string {
+	return validateAdvancedPartitions(MinimumServerInstallSize, medias, LegacyBios)
 }
 
 // DesktopValidateAdvancedPartitions returns an array of validation error
 // strings for the advanced partitions based on a Desktop installation.
-func DesktopValidateAdvancedPartitions(medias []*BlockDevice) []string {
-	return validateAdvancedPartitions(MinimumDesktopInstallSize, medias)
+func DesktopValidateAdvancedPartitions(medias []*BlockDevice, LegacyBios bool) []string {
+	return validateAdvancedPartitions(MinimumDesktopInstallSize, medias, LegacyBios)
 }
 
 // validateAdvancedPartitions returns an array of validation error
 // strings for the advanced partitions
-func validateAdvancedPartitions(rootSize uint64, medias []*BlockDevice) []string {
+func validateAdvancedPartitions(rootSize uint64, medias []*BlockDevice, LegacyBios bool) []string {
 	results := []string{}
 
 	bootFound := false
@@ -1619,6 +1619,7 @@ func validateAdvancedPartitions(rootSize uint64, medias []*BlockDevice) []string
 				}
 
 				switch lowerPart {
+				//TODO: JOHN: Need to handle here too
 				case "boot":
 					if bootFound {
 						warning := utils.Locale.Get("Found multiple %s partition names", "CLR_BOOT")
@@ -1718,7 +1719,8 @@ func validateAdvancedPartitions(rootSize uint64, medias []*BlockDevice) []string
 		}
 	}
 
-	if !bootFound {
+	// TODO: JOHN: If legacy, not hard req
+	if !bootFound && !LegacyBios {
 		warning := utils.Locale.Get("Missing %s partition name", "CLR_BOOT")
 		results = append(results, warning)
 		log.Warning("validateAdvancedPartitions: %s", warning)

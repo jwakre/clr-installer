@@ -67,7 +67,7 @@ func (page *MediaConfigPage) GetConfiguredValue() string {
 	page.done = page.getModel().TargetMedias != nil
 
 	if page.isAdvancedSelected {
-		results := storage.ServerValidateAdvancedPartitions(tm)
+		results := storage.ServerValidateAdvancedPartitions(tm, model.LegacyBios)
 		if len(results) > 0 {
 			return fmt.Sprintf("Warning: %s", strings.Join(results, ", "))
 		}
@@ -110,14 +110,15 @@ func (page *MediaConfigPage) GetConfigDefinition() int {
 		}
 	}
 
-	tm := page.getModel().TargetMedias
+	model := page.getModel()
+	tm := model.TargetMedias
 
 	if tm == nil {
 		return ConfigNotDefined
 	}
 
 	if page.isAdvancedSelected {
-		results := storage.ServerValidateAdvancedPartitions(tm)
+		results := storage.ServerValidateAdvancedPartitions(tm, model.LegacyBios)
 		if len(results) > 0 {
 			model := page.getModel()
 			model.ClearInstallSelected()
@@ -357,6 +358,8 @@ func (page *MediaConfigPage) advancedRadioOnChange(active bool) {
 		return
 	}
 
+	model := page.getModel()
+
 	page.labelWarning.SetTitle("")
 	page.labelDestructive.SetTitle("")
 	page.isSafeSelected = false
@@ -384,7 +387,7 @@ func (page *MediaConfigPage) advancedRadioOnChange(active bool) {
 		page.advancedCfgBtn.SetEnabled(false)
 	} else {
 		si := page.getModel()
-		results := storage.ServerValidateAdvancedPartitions(si.TargetMedias)
+		results := storage.ServerValidateAdvancedPartitions(si.TargetMedias, model.LegacyBios)
 		warning := ""
 		if len(results) > 0 {
 			warning = strings.Join(results, ", ")
