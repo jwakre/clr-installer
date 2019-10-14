@@ -75,6 +75,7 @@ autoUpdate: false
 keyboard: us
 language: en_US.UTF-8
 kernel: kernel-native
+legacyBios: true
 
 kernel-arguments: {add: [clri.loglevel=4], remove: [console=ttyS0,115200n8]}
 

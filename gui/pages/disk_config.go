@@ -87,6 +87,7 @@ func (disk *DiskConfig) advancedButtonToggled() {
 	disk.encryptCheck.SetSensitive(storage.AdvancedPartitionsRequireEncryption(disk.model.TargetMedias))
 	disk.encryptCheck.SetActive(false) // Force off for Advance as not support yet
 
+	log.Debug("JOHN!!!: LegacyBios: %v", disk.model.LegacyBios)
 	results := storage.DesktopValidateAdvancedPartitions(disk.model.TargetMedias, disk.model.LegacyBios)
 	if len(results) > 0 {
 		disk.model.ClearInstallSelected()
