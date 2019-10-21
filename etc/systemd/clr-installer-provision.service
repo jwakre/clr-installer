@@ -11,7 +11,7 @@ After=systemd-user-sessions.service plymouth-quit.service
 
 [Service]
 Type=idle
-ExecStart=/bin/bash -l -c /usr/bin/clr-installer
+ExecStart=/bin/bash -l -c "/usr/bin/clr-installer --allow-insecure-http"
 # The post disable is a temp workaround as clr-boot-manager is
 # not setting the right boot target
 ExecStartPost=/usr/bin/systemctl disable clr-installer-provision
