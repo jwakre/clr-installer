@@ -329,6 +329,7 @@ func (s *SoftwareUpdater) OSInstall(version, printPrefix string, bundles []strin
 			fmt.Sprintf("--statedir=%s", s.stateDir),
 			"-V",
 			version,
+			"--nosigcheck",
 			"--force",
 			"--no-boot-update",
 			"--json-output",

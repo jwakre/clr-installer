@@ -11,7 +11,7 @@ After=systemd-user-sessions.service plymouth-quit.service
 
 [Service]
 Type=idle
-ExecStart=/bin/bash -l -c /usr/bin/clr-installer
+ExecStart=/bin/bash -l -c "/usr/bin/clr-installer --allow-insecure-http --swupd-url=https://cdn.download.clearlinux.org/update"
 Restart=on-failure
 StandardInput=tty
 StandardOutput=tty
