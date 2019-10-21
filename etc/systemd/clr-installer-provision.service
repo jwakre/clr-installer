@@ -1,0 +1,16 @@
+[Unit]
+Description=Clear Linux OS Installer
+After=systemd-user-sessions.service plymouth-quit.service
+
+[Service]
+Type=idle
+ExecStart=/bin/bash -l -c /usr/bin/clr-installer
+ExecStartPost=/usr/bin/systemctl disable clr-installer-provision
+Restart=on-failure
+StandardInput=tty
+StandardOutput=tty
+StandardError=tty
+TTYPath=/dev/console
+
+[Install]
+WantedBy=multi-user.target
