@@ -24,11 +24,11 @@ targetMedia:
 
 bundles: [
     bootloader,
+    os-core,
     clr-installer,
     openssh-server,
-    os-core,
+    systemd-networkd-autostart,
     os-core-update,
-    systemd-networkd-autostart
   ]
 
 autoUpdate: false
@@ -40,8 +40,11 @@ keyboard: us
 language: en_US.UTF-8
 kernel: kernel-native
 
+pre-install: [
+   {cmd: "scripts/developer-image-pre.sh"}
+]
 post-install: [
-   {cmd: "systemctl enable clr-installer-provision", chroot: true}
+   {cmd: "scripts/developer-image-post.sh ${chrootDir}"},
 ]
 
 version: 0

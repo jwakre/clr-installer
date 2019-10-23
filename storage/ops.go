@@ -1125,13 +1125,19 @@ func MakeImage(bd *BlockDevice, file string) error {
 		return errors.Wrap(err)
 	}
 
+	var blockSize uint64 = 1024
+	blocks := size / blockSize
+	if (size % blockSize) != 0 {
+		blocks++
+	}
+
 	args := []string{
-		"qemu-img",
-		"create",
-		"-f",
-		"raw",
-		file,
-		fmt.Sprintf("%d", size),
+		"dd",
+		"if=/dev/zero",
+		fmt.Sprintf("of=%s", file),
+		fmt.Sprintf("bs=%d", blockSize),
+		fmt.Sprintf("seek=%d", blocks),
+		"count=0",
 	}
 
 	err = cmd.RunAndLog(args...)
