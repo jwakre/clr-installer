@@ -25,15 +25,12 @@ import (
 	"github.com/clearlinux/clr-installer/encrypt"
 	"github.com/clearlinux/clr-installer/errors"
 	"github.com/clearlinux/clr-installer/frontend"
-	"github.com/clearlinux/clr-installer/keyboard"
-	"github.com/clearlinux/clr-installer/language"
 	"github.com/clearlinux/clr-installer/log"
 	"github.com/clearlinux/clr-installer/model"
 	"github.com/clearlinux/clr-installer/network"
 	"github.com/clearlinux/clr-installer/swupd"
 	"github.com/clearlinux/clr-installer/syscheck"
 	"github.com/clearlinux/clr-installer/telemetry"
-	"github.com/clearlinux/clr-installer/timezone"
 	"github.com/clearlinux/clr-installer/utils"
 )
 
@@ -348,18 +345,19 @@ func execute(options args.Args) error {
 			return err
 		}
 	}
+	/*
+		if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard) {
+			return fmt.Errorf("Invalid Keyboard '%s'", md.Keyboard.Code)
+		}
 
-	if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard) {
-		return fmt.Errorf("Invalid Keyboard '%s'", md.Keyboard.Code)
-	}
+		if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
+			return fmt.Errorf("Invalid Time Zone '%s'", md.Timezone.Code)
+		}
 
-	if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
-		return fmt.Errorf("Invalid Time Zone '%s'", md.Timezone.Code)
-	}
-
-	if md.Language != nil && !language.IsValidLanguage(md.Language) {
-		return fmt.Errorf("Invalid Language '%s'", md.Language.Code)
-	}
+		if md.Language != nil && !language.IsValidLanguage(md.Language) {
+			return fmt.Errorf("Invalid Language '%s'", md.Language.Code)
+		}
+	*/
 
 	// Set locale
 	utils.SetLocale(md.Language.Code)
