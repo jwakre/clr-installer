@@ -614,6 +614,7 @@ func LoadBundleList(model *model.SystemInstall) ([]*Bundle, error) {
 	if err != nil {
 		return nil, err
 	}
+	println(path)
 
 	root := struct {
 		Bundles []*Bundle `json:"bundles"`

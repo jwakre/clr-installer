@@ -25,12 +25,15 @@ import (
 	"github.com/clearlinux/clr-installer/encrypt"
 	"github.com/clearlinux/clr-installer/errors"
 	"github.com/clearlinux/clr-installer/frontend"
+	"github.com/clearlinux/clr-installer/keyboard"
+	"github.com/clearlinux/clr-installer/language"
 	"github.com/clearlinux/clr-installer/log"
 	"github.com/clearlinux/clr-installer/model"
 	"github.com/clearlinux/clr-installer/network"
 	"github.com/clearlinux/clr-installer/swupd"
 	"github.com/clearlinux/clr-installer/syscheck"
 	"github.com/clearlinux/clr-installer/telemetry"
+	"github.com/clearlinux/clr-installer/timezone"
 	"github.com/clearlinux/clr-installer/utils"
 )
 
@@ -345,22 +348,66 @@ func execute(options args.Args) error {
 			return err
 		}
 	}
-	/*
+
+	/*bundleList, err := swupd.LoadBundleList(md)
+	if err != nil {
+		return err
+	}
+
+	kbdBundle := false
+	localeBundle := false
+
+	for _, b := range bundleList {
+		println(b.Name)
+		if b.Name == keyboard.RequiredBundle {
+			kbdBundle = true
+			println(kbdBundle)
+		} else if b.Name == language.RequiredBundle {
+			localeBundle = true
+			println(localeBundle)
+		}
+	}
+
+	// Validate keyboard when optional kbd bundle exists
+	if kbdBundle {
 		if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard) {
 			return fmt.Errorf("Invalid Keyboard '%s'", md.Keyboard.Code)
 		}
+	} else if md.Keyboard != nil {
+		msg := fmt.Sprintf("%s bundle is missing, %s keyboard will not be validated", keyboard.RequiredBundle, md.Keyboard.Code)
+		fmt.Println(msg)
+		log.Warning(msg)
+	}
 
-		if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
-			return fmt.Errorf("Invalid Time Zone '%s'", md.Timezone.Code)
-		}
-
+	// Validate language when optional glibc-locale bundle exists
+	if localeBundle {
 		if md.Language != nil && !language.IsValidLanguage(md.Language) {
 			return fmt.Errorf("Invalid Language '%s'", md.Language.Code)
 		}
-	*/
 
-	// Set locale
-	utils.SetLocale(md.Language.Code)
+		// Set locale
+		utils.SetLocale(md.Language.Code)
+	} else if md.Language != nil {
+		msg := fmt.Sprintf("%s bundle is missing - %s locale will not be validated", language.RequiredBundle, md.Language.Code)
+		fmt.Println(msg)
+		log.Warning(msg)
+	}*/
+
+	if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard) {
+		msg := fmt.Sprintf("%s bundle is missing, %s keyboard will not be validated", keyboard.RequiredBundle, md.Keyboard.Code)
+		fmt.Println(msg)
+		log.Warning(msg)
+	}
+
+	if md.Language != nil && !language.IsValidLanguage(md.Language) {
+		msg := fmt.Sprintf("%s bundle is missing - %s locale will not be validated", language.RequiredBundle, md.Language.Code)
+		fmt.Println(msg)
+		log.Warning(msg)
+	}
+
+	if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
+		return fmt.Errorf("Invalid Time Zone '%s'", md.Timezone.Code)
+	}
 
 	// Run system check and exit
 	if options.SystemCheck {
