@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"os"
 	"path/filepath"
 	"sort"
@@ -1119,27 +1120,25 @@ func vfatMakePartCommand(bd *BlockDevice) (string, error) {
 
 // MakeImage create an image file considering the total block device size
 func MakeImage(bd *BlockDevice, file string) error {
-
 	size, err := bd.DiskSize()
 	if err != nil {
 		return errors.Wrap(err)
 	}
 
-	args := []string{
-		"qemu-img",
-		"create",
-		"-f",
-		"raw",
-		file,
-		fmt.Sprintf("%d", size),
+	// Ensure size can safely type cast to an int64 for Truncate. The maximum
+	// file size is filesystem dependent, so the file size may need to be reduced
+	// further, but the Truncate call will report these errors.
+	if size > math.MaxInt64 {
+		return errors.Errorf("block device %s size %d greater than max image file size %d\n", bd.Name, size, math.MaxInt64)
 	}
 
-	err = cmd.RunAndLog(args...)
+	f, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
-		return errors.Wrap(err)
+		return err
 	}
+	defer func() { _ = f.Close() }()
 
-	return nil
+	return f.Truncate(int64(size))
 }
 
 // SetupLoopDevice sets up a loop device and return the loop device path
