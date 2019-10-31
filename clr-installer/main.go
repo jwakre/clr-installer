@@ -377,6 +377,7 @@ func execute(options args.Args) error {
 		// Set locale
 		utils.SetLocale(md.Language.Code)
 	}
+	fmt.Printf("JOHN!!!: CODE: %s, TAG: %s\n", md.Language.Code, md.Language.Tag)
 
 	// Run system check and exit
 	if options.SystemCheck {

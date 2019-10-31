@@ -41,6 +41,6 @@ postArchive: false
 postReboot: false
 telemetry: false
 
-keyboard: us
-language: en_US.UTF-8
+keyboard: udadfs
+language: easdfn_US.UTF-8
 kernel: kernel-kvm
