@@ -28,7 +28,7 @@ type KeyboardPage struct {
 
 // NewKeyboardPage returns a new KeyboardPage
 func NewKeyboardPage(controller Controller, model *model.SystemInstall) (Page, error) {
-	data, err := keyboard.LoadKeymaps()
+	data, err := keyboard.LoadHostKeymaps()
 	if err != nil {
 		return nil, err
 	}

@@ -25,7 +25,6 @@ import (
 	"github.com/clearlinux/clr-installer/encrypt"
 	"github.com/clearlinux/clr-installer/errors"
 	"github.com/clearlinux/clr-installer/frontend"
-	"github.com/clearlinux/clr-installer/keyboard"
 	"github.com/clearlinux/clr-installer/language"
 	"github.com/clearlinux/clr-installer/log"
 	"github.com/clearlinux/clr-installer/model"
@@ -349,9 +348,9 @@ func execute(options args.Args) error {
 		}
 	}
 
-	if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard) {
-		return fmt.Errorf("Invalid Keyboard '%s'", md.Keyboard.Code)
-	}
+	//if md.Keyboard != nil && !keyboard.IsValidKeyboard(md.Keyboard, "") {
+	//	return fmt.Errorf("Invalid Keyboard '%s'", md.Keyboard.Code)
+	//}
 
 	if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
 		return fmt.Errorf("Invalid Time Zone '%s'", md.Timezone.Code)

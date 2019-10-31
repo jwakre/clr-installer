@@ -30,7 +30,7 @@ const (
 )
 
 // validKeyboards stores the list of all valid, known keyboards
-var validKeyboards []*Keymap
+//var validKeyboards []*Keymap
 
 // IsUserDefined returns true if the configuration was interactively
 // defined by the user
@@ -65,15 +65,29 @@ func (k *Keymap) Equals(comp *Keymap) bool {
 	return k.Code == comp.Code
 }
 
-// LoadKeymaps loads the system's available keymaps
-func LoadKeymaps() ([]*Keymap, error) {
-	if validKeyboards != nil {
-		return validKeyboards, nil
-	}
-	validKeyboards = []*Keymap{}
+func LoadHostKeymaps() ([]*Keymap, error) {
+	return LoadChrootKeymaps("")
+}
 
+// LoadKeymaps loads the system's available keymaps
+func LoadChrootKeymaps(rootDir string) ([]*Keymap, error) {
+	//if validKeyboards != nil {
+	//	return validKeyboards, nil
+	//}
+
+	validKeyboards := []*Keymap{}
 	w := bytes.NewBuffer(nil)
-	err := cmd.Run(w, "localectl", "list-keymaps", "--no-pager")
+
+	args := []string{
+		"localectl",
+		"list-keymaps",
+		"--no-pager",
+	}
+	if rootDir != "" {
+		args = append([]string{"chroot", rootDir}, args...)
+	}
+
+	err := cmd.Run(w, args...)
 	if err != nil {
 		return nil, err
 	}
@@ -99,10 +113,10 @@ func Apply(k *Keymap) error {
 }
 
 // IsValidKeyboard verifies if the given keyboard is valid
-func IsValidKeyboard(k *Keymap) bool {
+func IsValidKeyboard(k *Keymap, rootDir string) bool {
 	var result = false
 
-	kmaps, err := LoadKeymaps()
+	kmaps, err := LoadChrootKeymaps(rootDir)
 	if err != nil {
 		return result
 	}
@@ -116,9 +130,16 @@ func IsValidKeyboard(k *Keymap) bool {
 	return result
 }
 
+// GetDefaultKeymap TODO
+func GetDefaultKeymap() *Keymap {
+	return &Keymap{
+		Code:        DefaultKeyboard,
+		userDefined: false,
+	}
+}
+
 // SetTargetKeyboard creates a keyboard vconsole.conf on the target
 func SetTargetKeyboard(rootDir string, keyboard string) error {
-
 	targetKeyboardFile := filepath.Join(rootDir, "/etc/vconsole.conf")
 
 	filehandle, err := os.OpenFile(targetKeyboardFile, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)

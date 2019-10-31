@@ -758,6 +758,15 @@ func configureKeyboard(rootDir string, model *model.SystemInstall) error {
 		return nil
 	}
 
+	if !keyboard.IsValidKeyboard(model.Keyboard, rootDir) {
+		oldKeyboard := model.Keyboard.Code
+		model.Keyboard = keyboard.GetDefaultKeymap()
+
+		msg := fmt.Sprintf("Warning: keyboard %s is invalid, using default %s", oldKeyboard, model.Keyboard.Code)
+		fmt.Println(msg)
+		log.Warning(msg)
+	}
+
 	msg := "Setting Keyboard to " + model.Keyboard.Code
 	prg := progress.NewLoop(msg)
 	log.Info(msg)

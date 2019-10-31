@@ -66,7 +66,7 @@ func (page *KeyboardPage) DeActivate() {
 }
 
 func newKeyboardPage(tui *Tui) (Page, error) {
-	kmaps, err := keyboard.LoadKeymaps()
+	kmaps, err := keyboard.LoadHostKeymaps()
 	if err != nil {
 		return nil, err
 	}
