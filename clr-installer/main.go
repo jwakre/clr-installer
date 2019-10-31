@@ -357,7 +357,7 @@ func execute(options args.Args) error {
 
 		fmt.Println(msg)
 		log.Warning(msg)
-		md.Keyboard.Code = keyboard.DefaultKeyboard
+		md.Keyboard = keyboard.GetDefaultKeymap()
 	}
 
 	if md.Timezone != nil && !timezone.IsValidTimezone(md.Timezone) {
@@ -372,7 +372,7 @@ func execute(options args.Args) error {
 
 		fmt.Println(msg)
 		log.Warning(msg)
-		md.Language.Code = language.DefaultLanguage
+		md.Language = language.GetDefaultLanguage()
 	} else {
 		// Set locale
 		utils.SetLocale(md.Language.Code)

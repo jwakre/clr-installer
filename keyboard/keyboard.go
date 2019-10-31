@@ -116,6 +116,13 @@ func IsValidKeyboard(k *Keymap) bool {
 	return result
 }
 
+func GetDefaultKeymap() *Keymap {
+	return &Keymap{
+		Code:        DefaultKeyboard,
+		userDefined: false,
+	}
+}
+
 // SetTargetKeyboard creates a keyboard vconsole.conf on the target
 func SetTargetKeyboard(rootDir string, keyboard string) error {
 

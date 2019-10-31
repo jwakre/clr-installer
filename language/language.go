@@ -29,6 +29,7 @@ type Language struct {
 const (
 	// DefaultLanguage is the default language string
 	DefaultLanguage = "en_US.UTF-8"
+	DefaultTag      = "en"
 
 	// RequiredBundle the bundle needed to set language other than the default
 	RequiredBundle = "glibc-locale"
@@ -201,6 +202,10 @@ func Load() ([]*Language, error) {
 	}
 
 	return validLanguages, nil
+}
+
+func GetDefaultLanguage() *Language {
+	return getLangName(DefaultLanguage)
 }
 
 // IsValidLanguage verifies if the given language is valid
