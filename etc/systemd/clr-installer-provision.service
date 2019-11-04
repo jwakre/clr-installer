@@ -12,6 +12,8 @@ After=systemd-user-sessions.service plymouth-quit.service
 [Service]
 Type=idle
 ExecStart=/bin/bash -l -c /usr/bin/clr-installer
+# The post disable is a temp workaround as clr-boot-manager is
+# not setting the right boot target
 ExecStartPost=/usr/bin/systemctl disable clr-installer-provision
 Restart=on-failure
 StandardInput=tty
