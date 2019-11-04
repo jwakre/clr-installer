@@ -1,3 +1,10 @@
+#
+# The kernel command line needs to provide:
+# 1. URL to the clr-installer YAML configuration file
+#    i.e. clri.descriptor=http://server.com/path/file.yaml
+# 2. Provide the default console device for the hardware
+#    i.e. console=tty1
+#
 [Unit]
 Description=Clear Linux OS Installer
 After=systemd-user-sessions.service plymouth-quit.service
